@@ -3,58 +3,454 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Elite Manifest</title>
-  <meta name="description" content="Elite Manifest — trading discipline, systems, and mindset." />
+  <title>Elite Manifest — Hub</title>
+  <meta name="description" content="Elite Manifest hub: strategies, calculators, dashboards, and document library." />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b0f14" />
 </head>
-<body>
-  <header class="container">
-    <h1>Elite Manifest</h1>
-    <p class="sub">Trading discipline • Systems • Mindset</p>
 
-    <div class="cta">
-      <a class="btn" href="#start">Get started</a>
-      <a class="btn secondary" href="#contact">Contact</a>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <div class="brand">
+        <div class="brand__mark" aria-hidden="true">EM</div>
+        <div class="brand__text">
+          <div class="brand__name">Elite Manifest</div>
+          <div class="brand__tag">Trading • Systems • Discipline</div>
+        </div>
+      </div>
+
+      <div class="topbar__actions">
+        <button class="btn btn--ghost" id="themeBtn" type="button" aria-label="Toggle theme">Theme</button>
+        <button class="btn" id="installBtn" type="button" hidden>Install</button>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <section id="start" class="card">
-      <h2>Welcome</h2>
-      <p>
-        This is the starting point for Elite Manifest. DailyView.swift
-	•	JournalView.swift
-	•	CapitalView.swift
-	•	ShortsView.swift
-	•	WeeklyView.swift
-	•	SettingsView.swift
-      </p>
-      <ul>
-        <li>✅ Static site deployed on Netlify</li>
-        <li>✅ Connected to GitHub</li>
-        <li>✅ Ready to expand</li>
-      </ul>
-    </section>
+  <div class="wrap shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <nav class="nav" id="nav">
+        <button class="nav__item is-active" data-tab="dashboard" type="button">
+          <span class="nav__icon">🏠</span><span>Dashboard</span>
+        </button>
+        <button class="nav__item" data-tab="btc" type="button">
+          <span class="nav__icon">₿</span><span>BTC Plan</span>
+        </button>
+        <button class="nav__item" data-tab="tesla" type="button">
+          <span class="nav__icon">⚡</span><span>Tesla Plan</span>
+        </button>
+        <button class="nav__item" data-tab="tracker" type="button">
+          <span class="nav__icon">📊</span><span>Trackers</span>
+        </button>
+        <button class="nav__item" data-tab="library" type="button">
+          <span class="nav__icon">📚</span><span>PDF Library</span>
+        </button>
+        <button class="nav__item" data-tab="about" type="button">
+          <span class="nav__icon">ℹ️</span><span>About</span>
+        </button>
+        <div class="nav__divider"></div>
+        <a class="nav__item nav__item--link" href="#contact">
+          <span class="nav__icon">✉️</span><span>Contact</span>
+        </a>
+      </nav>
 
-    <section class="card">
-      <h2>What you’ll find here</h2>
-      <p>Playbooks, rules, and tools to stay consistent.</p>
-    </section>
+      <div class="sidebar__card">
+        <div class="kpi">
+          <div class="kpi__label">Weekly BTC Stack</div>
+          <div class="kpi__value" id="kpiWeekly">$200/wk</div>
+          <div class="kpi__sub">Medium risk • 5+ years</div>
+        </div>
+        <div class="kpi kpi--mini">
+          <div class="kpi__label">Goal</div>
+          <div class="kpi__value">0.1 BTC</div>
+          <div class="kpi__sub">“0.1 BTC race plan”</div>
+        </div>
+      </div>
+    </aside>
 
-    <section id="contact" class="card">
-      <h2>Contact</h2>
-      <p>Add your email / socials here.</p>
-    </section>
-  </main>
+    <main id="main" class="main" tabindex="-1">
+      <!-- DASHBOARD -->
+      <section class="tab is-active" id="tab-dashboard" data-tabpanel="dashboard">
+        <div class="hero">
+          <div>
+            <h1>Elite Manifest Hub</h1>
+            <p class="lead">
+              One place for your accumulation plans, calculators, trackers, and documents.
+              Built as a static site so it deploys cleanly on Netlify.
+            </p>
 
-  <footer class="container footer">
-    <small>© <span id="year"></span> Elite Manifest</small>
-  </footer>
+            <div class="hero__actions">
+              <button class="btn" data-jump="btc" type="button">Open BTC Plan</button>
+              <button class="btn btn--ghost" data-jump="library" type="button">Open PDF Library</button>
+            </div>
+
+            <div class="chips">
+              <span class="chip">Netlify + GitHub</span>
+              <span class="chip">Static (no build)</span>
+              <span class="chip">Mobile-first</span>
+              <span class="chip">PDF viewer</span>
+            </div>
+          </div>
+
+          <div class="hero__panel">
+            <div class="panel__title">Quick status</div>
+            <div class="grid2">
+              <div class="card">
+                <div class="muted">Deployment</div>
+                <div class="big">Live</div>
+                <div class="muted2">Connected to GitHub</div>
+              </div>
+              <div class="card">
+                <div class="muted">Next step</div>
+                <div class="big">Content</div>
+                <div class="muted2">Replace placeholders</div>
+              </div>
+            </div>
+
+            <div class="card card--note">
+              <div class="note__title">Tip</div>
+              <div class="note__body">
+                Drop your PDFs into <code>/pdfs/</code> and update the list in the PDF Library tab.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section__head">
+            <h2>What’s inside</h2>
+            <p class="muted2">Based on our previous discussions and your current setup.</p>
+          </div>
+
+          <div class="grid3">
+            <article class="card">
+              <h3>BTC Accumulation</h3>
+              <p>Weekly stacking plan ($200/wk), 5+ years, medium risk.</p>
+              <button class="linkbtn" data-jump="btc" type="button">Go to BTC tab →</button>
+            </article>
+
+            <article class="card">
+              <h3>Compounding Tools</h3>
+              <p>Simple calculators and trackers you can extend (BTC + Tesla).</p>
+              <button class="linkbtn" data-jump="tracker" type="button">Go to Trackers →</button>
+            </article>
+
+            <article class="card">
+              <h3>Document Library</h3>
+              <p>Multi-tab PDF viewer for plans, notes, exports, or research.</p>
+              <button class="linkbtn" data-jump="library" type="button">Open Library →</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- BTC -->
+      <section class="tab" id="tab-btc" data-tabpanel="btc">
+        <div class="section__head">
+          <h2>BTC Plan</h2>
+          <p class="muted2">Weekly accumulation + quick projection model (editable).</p>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h3>Plan snapshot</h3>
+            <ul class="list">
+              <li><strong>Contribution:</strong> $200 per week</li>
+              <li><strong>Horizon:</strong> 5+ years</li>
+              <li><strong>Risk:</strong> Medium</li>
+              <li><strong>Goal:</strong> 0.1 BTC target</li>
+            </ul>
+
+            <div class="divider"></div>
+
+            <h4 class="muted">Quick projection (placeholder)</h4>
+            <p class="muted2">
+              Add your assumptions in <em>app.js</em> (BTC price, growth, fees, DCA schedule).
+            </p>
+
+            <div class="mini-form">
+              <label>
+                Weekly contribution
+                <input id="btcWeekly" type="number" inputmode="decimal" value="200" />
+              </label>
+              <label>
+                Years
+                <input id="btcYears" type="number" inputmode="numeric" value="5" />
+              </label>
+              <button class="btn" id="btcCalcBtn" type="button">Estimate</button>
+            </div>
+
+            <div class="result" id="btcResult" role="status" aria-live="polite">
+              Enter assumptions → click Estimate
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>0.1 BTC “Race Plan”</h3>
+            <p class="muted2">
+              Use this as a simple checklist. Replace with your real rules.
+            </p>
+
+            <div class="checklist">
+              <label><input type="checkbox"> Auto-buy weekly (same day/time)</label>
+              <label><input type="checkbox"> Keep fees low (prefer limit orders where possible)</label>
+              <label><input type="checkbox"> Don’t overtrade (DCA beats impulse)</label>
+              <label><input type="checkbox"> Review monthly, not daily</label>
+              <label><input type="checkbox"> Secure storage plan (2FA, backups)</label>
+            </div>
+
+            <div class="divider"></div>
+
+            <h4>Notes</h4>
+            <textarea class="textarea" placeholder="Write your rules / triggers / boundaries here..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESLA -->
+      <section class="tab" id="tab-tesla" data-tabpanel="tesla">
+        <div class="section__head">
+          <h2>Tesla Plan</h2>
+          <p class="muted2">A compounding accumulation calculator section you can expand.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h3>Compounding calculator (starter)</h3>
+            <p class="muted2">
+              This is a basic estimator. For real investing decisions, add taxes/fees/dividends
+              and confirm assumptions.
+            </p>
+
+            <div class="mini-form">
+              <label>
+                Monthly contribution
+                <input id="tslaMonthly" type="number" inputmode="decimal" value="200" />
+              </label>
+              <label>
+                Years
+                <input id="tslaYears" type="number" inputmode="numeric" value="5" />
+              </label>
+              <label>
+                Annual growth %
+                <input id="tslaGrowth" type="number" inputmode="decimal" value="8" />
+              </label>
+              <button class="btn" id="tslaCalcBtn" type="button">Estimate</button>
+            </div>
+
+            <div class="result" id="tslaResult" role="status" aria-live="polite">
+              Enter assumptions → click Estimate
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Strategy notes</h3>
+            <ul class="list">
+              <li>Define contribution rule (fixed or % of income).</li>
+              <li>Set risk boundaries (max position size, drawdown response).</li>
+              <li>Schedule review cadence (monthly/quarterly).</li>
+              <li>Document your thesis + invalidation triggers.</li>
+            </ul>
+
+            <div class="divider"></div>
+
+            <h4>Thesis</h4>
+            <textarea class="textarea" placeholder="Write your thesis and invalidation triggers..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- TRACKERS -->
+      <section class="tab" id="tab-tracker" data-tabpanel="tracker">
+        <div class="section__head">
+          <h2>Trackers</h2>
+          <p class="muted2">Simple on-page tracking tables (export-ready concept).</p>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h3>Weekly BTC Stacking Tracker</h3>
+            <p class="muted2">Add rows as you go. (Optional: later we can export to CSV.)</p>
+
+            <div class="table-wrap">
+              <table class="table" aria-label="BTC weekly tracker table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Contribution</th>
+                    <th>BTC Price</th>
+                    <th>BTC Bought</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="btcTableBody">
+                  <tr>
+                    <td><input class="cell" type="date"></td>
+                    <td><input class="cell" type="number" inputmode="decimal" value="200"></td>
+                    <td><input class="cell" type="number" inputmode="decimal" placeholder="e.g. 65000"></td>
+                    <td><input class="cell" type="number" inputmode="decimal" placeholder="auto"></td>
+                    <td><input class="cell" type="text" placeholder="Exchange / fees / note"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row">
+              <button class="btn btn--ghost" id="addBtcRow" type="button">Add row</button>
+              <button class="btn" id="calcBtcBought" type="button">Auto-calc BTC Bought</button>
+            </div>
+
+            <div class="muted2 small">
+              BTC Bought = Contribution / BTC Price (simple estimate; fees not included)
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Netlify / GitHub Checklist</h3>
+            <div class="checklist">
+              <label><input type="checkbox" checked> Repo created and files uploaded</label>
+              <label><input type="checkbox" checked> Netlify connected to GitHub</label>
+              <label><input type="checkbox"> Publish dir set correctly</label>
+              <label><input type="checkbox"> index.html contains real content</label>
+              <label><input type="checkbox"> PDFs placed in /pdfs and listed in Library tab</label>
+            </div>
+
+            <div class="divider"></div>
+
+            <h4>Quick links</h4>
+            <p class="muted2">
+              Add your live site URL, repo URL, socials, etc. here.
+            </p>
+
+            <div class="mini-form">
+              <label>
+                Live site URL
+                <input type="url" placeholder="https://your-site.netlify.app">
+              </label>
+              <label>
+                GitHub repo
+                <input type="url" placeholder="https://github.com/you/elite-manifest-app">
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PDF LIBRARY -->
+      <section class="tab" id="tab-library" data-tabpanel="library">
+        <div class="section__head">
+          <h2>PDF Library</h2>
+          <p class="muted2">
+            Place PDFs in <code>/pdfs/</code> and update the document list in <code>app.js</code>.
+          </p>
+        </div>
+
+        <div class="library">
+          <div class="card library__list" aria-label="PDF list">
+            <div class="row row--space">
+              <h3 class="m0">Documents</h3>
+              <div class="pill" id="docCount">0</div>
+            </div>
+
+            <div class="search">
+              <input id="docSearch" type="search" placeholder="Search PDFs…" aria-label="Search PDFs" />
+            </div>
+
+            <div class="doclist" id="docList">
+              <!-- populated by app.js -->
+              <div class="muted2">No PDFs listed yet. Add them in app.js.</div>
+            </div>
+          </div>
+
+          <div class="card library__viewer" aria-label="PDF viewer">
+            <div class="row row--space">
+              <div>
+                <div class="muted">Viewing</div>
+                <div class="viewer__title" id="viewerTitle">Select a document</div>
+              </div>
+              <div class="row">
+                <a class="btn btn--ghost" id="openPdfNewTab" href="#" target="_blank" rel="noopener" aria-disabled="true">Open in new tab</a>
+              </div>
+            </div>
+
+            <div class="viewer">
+              <iframe
+                id="pdfFrame"
+                title="PDF viewer"
+                src=""
+                loading="lazy"
+                referrerpolicy="no-referrer"
+              ></iframe>
+
+              <div class="viewer__empty" id="viewerEmpty">
+                <div class="empty__icon">📄</div>
+                <div class="empty__title">Your PDFs will open here</div>
+                <div class="muted2">Add PDF files to <code>/pdfs/</code>, then list them in <code>app.js</code>.</div>
+              </div>
+            </div>
+
+            <div class="muted2 small">
+              If a PDF doesn’t render on iOS, “Open in new tab” usually works best.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="tab" id="tab-about" data-tabpanel="about">
+        <div class="section__head">
+          <h2>About</h2>
+          <p class="muted2">A clean, deployable foundation you can grow.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h3>What this site is</h3>
+            <p>
+              A static hub with tabs for your plans, trackers, and documents. No frameworks, no build steps —
+              just HTML/CSS/JS so Netlify deploys reliably.
+            </p>
+            <ul class="list">
+              <li>Multi-tab navigation (SPA-style, but static)</li>
+              <li>PDF Library with search + viewer</li>
+              <li>Starter calculators + tracker table</li>
+            </ul>
+          </div>
+
+          <div class="card" id="contact">
+            <h3>Contact</h3>
+            <p class="muted2">Add your preferred contact or socials below.</p>
+
+            <form class="mini-form" onsubmit="return false">
+              <label>
+                Email
+                <input type="email" placeholder="you@example.com" />
+              </label>
+              <label>
+                Instagram / X
+                <input type="text" placeholder="@handle" />
+              </label>
+              <button class="btn" type="button" id="saveContact">Save locally</button>
+            </form>
+
+            <div class="muted2 small">
+              “Save locally” stores to your browser only (localStorage). No server needed.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="muted2">© <span id="year"></span> Elite Manifest • Built for Netlify</div>
+      </footer>
+    </main>
+  </div>
 
   <script src="app.js"></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
