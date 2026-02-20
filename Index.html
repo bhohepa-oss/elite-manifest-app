@@ -3,54 +3,816 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Elite Manifest</title>
-  <meta name="description" content="Elite Manifest — trading discipline, systems, and mindset." />
+  <title>Elite Manifest — Trading & Investor Hub</title>
+  <meta name="description" content="Elite Manifest: trading discipline, investor mode dashboards, BTC stacking plans, and resources." />
+
+  <!-- Optional (works if you have these files) -->
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json" />
+
+  <style>
+    /* --- Polished built-in styling (keeps you unblocked even if styles.css is minimal) --- */
+    :root{
+      --bg:#070b10;
+      --panel:#0d141d;
+      --panel2:#0b1119;
+      --card:#101a25;
+      --text:#eaf2ff;
+      --muted:#9db0c7;
+      --line:#1b2a3b;
+      --good:#2dd4bf;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --accent:#60a5fa;
+      --shadow: 0 12px 28px rgba(0,0,0,.45);
+      --radius: 14px;
+      --radius2: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 10% 0%, rgba(96,165,250,.12), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(45,212,191,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), #06090d 60%);
+    }
+    a{color:inherit}
+    .shell{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px 48px;
+    }
+    .topbar{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      background: rgba(13,20,29,.72);
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 12px 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 10px;
+      z-index: 50;
+    }
+    .brand{display:flex; align-items:center; gap:10px; min-width: 230px;}
+    .logo{
+      width:38px; height:38px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(45,212,191,.9), rgba(96,165,250,.9));
+      box-shadow: 0 10px 20px rgba(0,0,0,.35);
+    }
+    .brand h1{font-size: 15px; margin:0; letter-spacing:.2px;}
+    .brand p{margin:0; font-size: 12px; color: var(--muted);}
+
+    .tabs{
+      display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .tabbtn{
+      appearance:none;
+      border:1px solid var(--line);
+      background: rgba(16,26,37,.55);
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-size: 12px;
+      display:flex; align-items:center; gap:8px;
+      transition: .15s transform, .15s background, .15s color, .15s border-color;
+      user-select:none;
+    }
+    .tabbtn:hover{transform: translateY(-1px); border-color: rgba(96,165,250,.35); color: var(--text);}
+    .tabbtn[aria-selected="true"]{
+      background: rgba(96,165,250,.14);
+      border-color: rgba(96,165,250,.55);
+      color: var(--text);
+    }
+    .pill{
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(157,176,199,.25);
+      color: rgba(234,242,255,.85);
+      background: rgba(11,17,25,.55);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr}
+      .brand{min-width: unset;}
+      .tabs{justify-content:flex-start}
+    }
+
+    .panel{
+      background: rgba(13,20,29,.72);
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelHeader{
+      padding: 14px 14px 10px;
+      border-bottom:1px solid rgba(27,42,59,.6);
+      background: linear-gradient(180deg, rgba(16,26,37,.65), rgba(13,20,29,.25));
+    }
+    .panelHeader h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .panelHeader p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .panelBody{padding: 14px;}
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+    }
+    @media (max-width: 980px){ .cards{grid-template-columns: 1fr} }
+    .card{
+      background: rgba(16,26,37,.65);
+      border: 1px solid rgba(27,42,59,.8);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+    .card h3{margin:0 0 6px; font-size: 13px;}
+    .card p{margin:0; color: var(--muted); font-size: 12px; line-height:1.35;}
+    .statline{
+      display:flex; align-items:flex-end; justify-content:space-between; gap: 10px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(157,176,199,.18);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(234,242,255,.9);
+    }
+    .muted{color: var(--muted);}
+    .good{color: var(--good);}
+    .warn{color: var(--warn);}
+    .bad{color: var(--bad);}
+
+    .section{display:none;}
+    .section[data-active="true"]{display:block;}
+
+    .list{
+      display:grid; gap: 10px;
+    }
+    .row{
+      display:flex; gap: 10px; align-items:flex-start; justify-content:space-between;
+      padding: 10px;
+      border:1px solid rgba(27,42,59,.75);
+      border-radius: 12px;
+      background: rgba(16,26,37,.55);
+    }
+    .row strong{display:block; font-size: 12.5px;}
+    .row span{display:block; color: var(--muted); font-size: 12px; margin-top: 2px; line-height:1.35;}
+    .row .right{display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
+    .btn{
+      display:inline-flex; gap:8px; align-items:center;
+      border-radius: 12px;
+      border: 1px solid rgba(96,165,250,.45);
+      background: rgba(96,165,250,.14);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 12px;
+      cursor:pointer;
+      text-decoration:none;
+      user-select:none;
+      transition: .15s transform, .15s background, .15s border-color;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(96,165,250,.7);}
+    .btn.secondary{
+      border-color: rgba(157,176,199,.28);
+      background: rgba(11,17,25,.55);
+      color: rgba(234,242,255,.88);
+    }
+    .btn.good{border-color: rgba(45,212,191,.55); background: rgba(45,212,191,.14);}
+    .btn.warn{border-color: rgba(251,191,36,.55); background: rgba(251,191,36,.12);}
+    .btn.bad{border-color: rgba(251,113,133,.55); background: rgba(251,113,133,.12);}
+
+    .inputRow{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+    }
+    @media (max-width: 980px){ .inputRow{grid-template-columns: 1fr 1fr} }
+    @media (max-width: 520px){ .inputRow{grid-template-columns: 1fr} }
+
+    label{display:block; font-size: 12px; color: var(--muted); margin: 0 0 6px;}
+    input{
+      width:100%;
+      border-radius: 12px;
+      border: 1px solid rgba(27,42,59,.9);
+      background: rgba(11,17,25,.65);
+      color: var(--text);
+      padding: 10px 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      outline:none;
+    }
+    input:focus{border-color: rgba(96,165,250,.6);}
+
+    .divider{height:1px; background: rgba(27,42,59,.8); margin: 12px 0;}
+
+    /* PDF tab viewer */
+    .pdfWrap{
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 12px;
+      min-height: 560px;
+    }
+    @media (max-width: 980px){ .pdfWrap{grid-template-columns: 1fr; min-height: unset;} }
+    .pdfList{
+      border:1px solid rgba(27,42,59,.8);
+      border-radius: var(--radius);
+      background: rgba(16,26,37,.55);
+      overflow:hidden;
+    }
+    .pdfItem{
+      width:100%;
+      text-align:left;
+      padding: 10px 12px;
+      border:0;
+      border-bottom:1px solid rgba(27,42,59,.55);
+      background: transparent;
+      color: rgba(234,242,255,.86);
+      cursor:pointer;
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .pdfItem:hover{background: rgba(96,165,250,.08);}
+    .pdfItem[aria-selected="true"]{background: rgba(45,212,191,.12); color: var(--text);}
+    .pdfFrame{
+      border:1px solid rgba(27,42,59,.8);
+      border-radius: var(--radius);
+      background: rgba(16,26,37,.55);
+      overflow:hidden;
+      min-height: 560px;
+    }
+    .pdfFrame iframe{
+      width:100%;
+      height: 560px;
+      border:0;
+      background: #fff;
+    }
+
+    .footer{
+      margin-top: 14px;
+      color: rgba(157,176,199,.8);
+      font-size: 12px;
+      text-align:center;
+      padding: 12px 0 0;
+    }
+  </style>
 </head>
+
 <body>
-  <header class="container">
-    <h1>Elite Manifest</h1>
-    <p class="sub">Trading discipline • Systems • Mindset</p>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Elite Manifest</h1>
+          <p>Investor Mode • Trading Discipline • Stacking Systems</p>
+        </div>
+      </div>
 
-    <div class="cta">
-      <a class="btn" href="#start">Get started</a>
-      <a class="btn secondary" href="#contact">Contact</a>
+      <div class="tabs" role="tablist" aria-label="Main navigation tabs">
+        <button class="tabbtn" role="tab" id="tab-dashboard" aria-controls="panel-dashboard" aria-selected="true" data-tab="dashboard">
+          📊 Dashboard <span class="pill">home</span>
+        </button>
+        <button class="tabbtn" role="tab" id="tab-trading" aria-controls="panel-trading" aria-selected="false" data-tab="trading">
+          🧠 Trading <span class="pill">rules</span>
+        </button>
+        <button class="tabbtn" role="tab" id="tab-btc" aria-controls="panel-btc" aria-selected="false" data-tab="btc">
+          ₿ BTC Plan <span class="pill">5y+</span>
+        </button>
+        <button class="tabbtn" role="tab" id="tab-trackers" aria-controls="panel-trackers" aria-selected="false" data-tab="trackers">
+          ✅ Trackers <span class="pill">weekly</span>
+        </button>
+        <button class="tabbtn" role="tab" id="tab-pdfs" aria-controls="panel-pdfs" aria-selected="false" data-tab="pdfs">
+          📄 PDFs <span class="pill">library</span>
+        </button>
+        <button class="tabbtn" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" data-tab="about">
+          ⚙️ About <span class="pill">setup</span>
+        </button>
+      </div>
     </div>
-  </header>
 
-  <main class="container">
-    <section id="start" class="card">
-      <h2>Welcome</h2>
-      <p>
-        This is the starting point for Elite Manifest. Replace this text with your content,
-        links, and sections as you build.
-      </p>
-      <ul>
-        <li>✅ Static site deployed on Netlify</li>
-        <li>✅ Connected to GitHub</li>
-        <li>✅ Ready to expand</li>
-      </ul>
+    <!-- DASHBOARD -->
+    <section class="panel section" id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard" data-active="true">
+      <div class="panelHeader">
+        <h2>Investor Mode Dashboard</h2>
+        <p>Quick-glance panels to keep you consistent: plan, process, and proof-of-work. Everything here is static and safe to host on Netlify.</p>
+      </div>
+      <div class="panelBody">
+        <div class="cards">
+          <div class="card">
+            <h3>₿ BTC Accumulation (weekly)</h3>
+            <p class="muted">Your stacking baseline: <strong class="good">$200/week</strong> • medium risk • horizon <strong>5+ years</strong>.</p>
+            <div class="statline">
+              <span class="muted">Target focus</span>
+              <span>“0.1 BTC race plan”</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>📈 Trading Discipline</h3>
+            <p class="muted">Rules beat vibes. Keep it boring, repeatable, and measurable. Use the Trading tab to document setups + risk.</p>
+            <div class="statline">
+              <span class="muted">Core rule</span>
+              <span class="warn">Risk small, survive long</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🗂️ Resources Library</h3>
+            <p class="muted">Put your PDFs in <span class="pill">/pdfs</span> and they’ll show up in the PDFs tab viewer (links below).</p>
+            <div class="statline">
+              <span class="muted">Status</span>
+              <span class="good">Ready</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="list">
+          <div class="row">
+            <div>
+              <strong>Today’s Operating System</strong>
+              <span>Pick one focus: stacking consistency, journaling trades, or refining a single setup.</span>
+            </div>
+            <div class="right">
+              <span class="pill" id="todayPill">—</span>
+              <button class="btn secondary" id="btnFocus">Shuffle focus</button>
+              <button class="btn good" data-goto="trackers">Open Trackers</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <strong>Quick Links</strong>
+              <span>Jump into the system: rules, BTC plan, trackers, and PDFs.</span>
+            </div>
+            <div class="right">
+              <button class="btn" data-goto="trading">Trading Rules</button>
+              <button class="btn" data-goto="btc">BTC Plan</button>
+              <button class="btn" data-goto="pdfs">PDF Library</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>What you’ll find here</h2>
-      <p>Playbooks, rules, and tools to stay consistent.</p>
+    <!-- TRADING -->
+    <section class="panel section" id="panel-trading" role="tabpanel" aria-labelledby="tab-trading" data-active="false">
+      <div class="panelHeader">
+        <h2>Trading — Rules, Risk, Journal</h2>
+        <p>Keep this page as your “truth.” If a trade doesn’t fit your rules, it doesn’t exist.</p>
+      </div>
+      <div class="panelBody">
+        <div class="cards">
+          <div class="card">
+            <h3>Risk Framework</h3>
+            <p class="muted">Define max daily loss, max per-trade loss, and size positions accordingly.</p>
+            <div class="statline"><span class="muted">Default</span><span class="warn">Medium risk tolerance</span></div>
+          </div>
+          <div class="card">
+            <h3>Setup Quality</h3>
+            <p class="muted">One setup > ten ideas. Write: entry, invalidation, target, and why now.</p>
+            <div class="statline"><span class="muted">Goal</span><span>Repeatable edge</span></div>
+          </div>
+          <div class="card">
+            <h3>Post-Trade Review</h3>
+            <p class="muted">Grade execution, not outcome. Document emotions + rule breaks.</p>
+            <div class="statline"><span class="muted">Measure</span><span class="good">Process score</span></div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>Journal Template (copy/paste)</h3>
+          <p class="muted">Use this in a Notes app or a separate journal file. Keep it consistent.</p>
+          <pre style="white-space:pre-wrap;background:rgba(11,17,25,.65);border:1px solid rgba(27,42,59,.8);border-radius:12px;padding:12px;font-family:var(--mono);font-size:12px;color:rgba(234,242,255,.9);line-height:1.4;overflow:auto;margin:10px 0 0;">
+DATE:
+MARKET/PAIR:
+SETUP NAME:
+ENTRY:
+STOP (INVALIDATION):
+TARGETS:
+RISK ($ / %):
+POSITION SIZE:
+WHY THIS TRADE:
+EXECUTION (A-F):
+NOTES (emotion, mistakes, lessons):
+          </pre>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="card">
-      <h2>Contact</h2>
-      <p>Add your email / socials here.</p>
+    <!-- BTC PLAN -->
+    <section class="panel section" id="panel-btc" role="tabpanel" aria-labelledby="tab-btc" data-active="false">
+      <div class="panelHeader">
+        <h2>BTC Plan — 5+ Year Compounding</h2>
+        <p>Use this as a simple compounding/accumulation estimator. You can later replace it with a full tracker spreadsheet or web app.</p>
+      </div>
+      <div class="panelBody">
+        <div class="card">
+          <h3>Quick Inputs</h3>
+          <p class="muted">This estimates BTC accumulated from weekly contributions + optional annual price growth assumption (simple model).</p>
+
+          <div class="inputRow" style="margin-top:12px;">
+            <div>
+              <label for="weeklyAUD">Weekly contribution (AUD)</label>
+              <input id="weeklyAUD" type="number" inputmode="decimal" value="200" min="0" />
+            </div>
+            <div>
+              <label for="btcPriceAUD">BTC price now (AUD)</label>
+              <input id="btcPriceAUD" type="number" inputmode="decimal" value="100000" min="1" />
+            </div>
+            <div>
+              <label for="years">Years</label>
+              <input id="years" type="number" inputmode="numeric" value="5" min="1" max="30" />
+            </div>
+            <div>
+              <label for="annualGrowth">Assumed annual BTC price growth (%)</label>
+              <input id="annualGrowth" type="number" inputmode="decimal" value="0" min="-50" max="200" />
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+            <button class="btn good" id="btnCalc">Recalculate</button>
+            <button class="btn secondary" id="btnReset">Reset</button>
+            <span class="pill" id="btcSummary">—</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="card" style="margin:0;">
+            <h3>Projection Table</h3>
+            <p class="muted">Simple yearly view: contributions only (BTC bought each week), with optional price drift.</p>
+            <div style="overflow:auto; margin-top:10px;">
+              <table id="btcTable" style="width:100%;border-collapse:separate;border-spacing:0;font-size:12px;">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:10px;border-bottom:1px solid rgba(27,42,59,.8);color:var(--muted);">Year</th>
+                    <th style="text-align:right;padding:10px;border-bottom:1px solid rgba(27,42,59,.8);color:var(--muted);">Avg BTC Price (AUD)</th>
+                    <th style="text-align:right;padding:10px;border-bottom:1px solid rgba(27,42,59,.8);color:var(--muted);">Contrib (AUD)</th>
+                    <th style="text-align:right;padding:10px;border-bottom:1px solid rgba(27,42,59,.8);color:var(--muted);">BTC Added</th>
+                    <th style="text-align:right;padding:10px;border-bottom:1px solid rgba(27,42,59,.8);color:var(--muted);">BTC Total</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <p class="muted" style="margin-top:10px;">
+              Note: This is a simplified estimator (no fees/taxes/slippage). Use Trackers tab for weekly process tracking.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
-  </main>
 
-  <footer class="container footer">
-    <small>© <span id="year"></span> Elite Manifest</small>
-  </footer>
+    <!-- TRACKERS -->
+    <section class="panel section" id="panel-trackers" role="tabpanel" aria-labelledby="tab-trackers" data-active="false">
+      <div class="panelHeader">
+        <h2>Trackers — Weekly Proof-of-Work</h2>
+        <p>These are simple checklists you can expand. The goal: consistency and compounding habits.</p>
+      </div>
+      <div class="panelBody">
+        <div class="cards">
+          <div class="card">
+            <h3>Weekly BTC Stack</h3>
+            <p class="muted">Baseline plan: <strong class="good">$200/week</strong>. Tick it off every week.</p>
+            <div class="statline"><span class="muted">System</span><span>Auto-buy + review</span></div>
+          </div>
+          <div class="card">
+            <h3>Trade Journal</h3>
+            <p class="muted">At least one review session per week. Grade execution.</p>
+            <div class="statline"><span class="muted">Metric</span><span class="good">Process score</span></div>
+          </div>
+          <div class="card">
+            <h3>Risk Audit</h3>
+            <p class="muted">Confirm risk caps + avoid revenge trading.</p>
+            <div class="statline"><span class="muted">Rule</span><span class="warn">Stop when tilted</span></div>
+          </div>
+        </div>
 
-  <script src="app.js"></script>
+        <div class="divider"></div>
+
+        <div class="card">
+          <h3>Weekly Checklist</h3>
+          <div class="list" style="margin-top:10px;">
+            <div class="row">
+              <div>
+                <strong>✅ BTC buy executed</strong>
+                <span>Automatic or manual — confirm it happened.</span>
+              </div>
+              <div class="right"><span class="pill">Weekly</span></div>
+            </div>
+            <div class="row">
+              <div>
+                <strong>✅ Journal updated</strong>
+                <span>Record trades + screenshots + lessons.</span>
+              </div>
+              <div class="right"><span class="pill">Weekly</span></div>
+            </div>
+            <div class="row">
+              <div>
+                <strong>✅ Rules reviewed</strong>
+                <span>One pass through your Trading rules. Keep it tight.</span>
+              </div>
+              <div class="right"><span class="pill">Weekly</span></div>
+            </div>
+            <div class="row">
+              <div>
+                <strong>✅ Next week plan</strong>
+                <span>What matters next: stacking, setups, or skill building.</span>
+              </div>
+              <div class="right"><span class="pill">Weekly</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PDFs -->
+    <section class="panel section" id="panel-pdfs" role="tabpanel" aria-labelledby="tab-pdfs" data-active="false">
+      <div class="panelHeader">
+        <h2>PDF Library — Multi-Tab Viewer</h2>
+        <p>Upload your PDFs into <span class="pill">/pdfs</span> and update the list below. Tap a PDF on the left to view it.</p>
+      </div>
+      <div class="panelBody">
+        <div class="pdfWrap">
+          <div class="pdfList" role="listbox" aria-label="PDF list">
+            <!-- Update these to match your real PDF filenames -->
+            <button class="pdfItem" role="option" aria-selected="true"
+              data-pdf-title="BTC Compounding & Accumulation Plan"
+              data-pdf-src="pdfs/btc-compounding-plan.pdf">
+              BTC Compounding Plan <span class="pill">PDF</span>
+            </button>
+            <button class="pdfItem" role="option" aria-selected="false"
+              data-pdf-title="Weekly BTC Stacking Tracker"
+              data-pdf-src="pdfs/weekly-btc-tracker.pdf">
+              Weekly BTC Tracker <span class="pill">PDF</span>
+            </button>
+            <button class="pdfItem" role="option" aria-selected="false"
+              data-pdf-title="Trading Rules & Journal Template"
+              data-pdf-src="pdfs/trading-rules-journal.pdf">
+              Trading Rules & Journal <span class="pill">PDF</span>
+            </button>
+            <button class="pdfItem" role="option" aria-selected="false"
+              data-pdf-title="Long-Term Portfolio Notes"
+              data-pdf-src="pdfs/portfolio-notes.pdf">
+              Portfolio Notes <span class="pill">PDF</span>
+            </button>
+
+            <div style="padding:12px;">
+              <div class="divider"></div>
+              <p class="muted" style="margin:0 0 10px; line-height:1.35;">
+                Tip: PDFs must be committed to GitHub so Netlify can serve them.
+              </p>
+              <a class="btn secondary" href="pdfs/" target="_blank" rel="noopener">Open /pdfs folder</a>
+            </div>
+          </div>
+
+          <div class="pdfFrame">
+            <div style="padding:10px 12px;border-bottom:1px solid rgba(27,42,59,.65);display:flex;gap:10px;align-items:center;justify-content:space-between;">
+              <div>
+                <strong id="pdfTitle" style="font-size:12.5px;">BTC Compounding & Accumulation Plan</strong>
+                <div class="muted" style="font-size:12px;margin-top:2px;" id="pdfPath">pdfs/btc-compounding-plan.pdf</div>
+              </div>
+              <a class="btn" id="pdfOpenNew" href="pdfs/btc-compounding-plan.pdf" target="_blank" rel="noopener">Open in new tab</a>
+            </div>
+            <iframe id="pdfIframe" title="PDF Viewer" src="pdfs/btc-compounding-plan.pdf"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="panel section" id="panel-about" role="tabpanel" aria-labelledby="tab-about" data-active="false">
+      <div class="panelHeader">
+        <h2>About & Setup</h2>
+        <p>How this site is structured, how to add PDFs, and what to do if Netlify shows a 404.</p>
+      </div>
+      <div class="panelBody">
+        <div class="card">
+          <h3>Recommended Repo Structure</h3>
+          <pre style="white-space:pre;background:rgba(11,17,25,.65);border:1px solid rgba(27,42,59,.8);border-radius:12px;padding:12px;font-family:var(--mono);font-size:12px;color:rgba(234,242,255,.9);line-height:1.5;overflow:auto;margin:10px 0 0;">
+/ (repo root)
+  index.html
+  styles.css
+  app.js
+  manifest.json
+  service-worker.js
+  /pdfs
+    btc-compounding-plan.pdf
+    weekly-btc-tracker.pdf
+    trading-rules-journal.pdf
+    portfolio-notes.pdf
+          </pre>
+          <p class="muted" style="margin-top:10px;">
+            If you get “Page not found” on Netlify, it usually means <strong>index.html is missing</strong> at the published folder
+            or Netlify publish directory isn’t set to <span class="pill">.</span>
+          </p>
+        </div>
+
+        <div class="cards" style="margin-top:12px;">
+          <div class="card">
+            <h3>Netlify Settings</h3>
+            <p class="muted">For static sites like yours:</p>
+            <div class="statline"><span class="muted">Build</span><span>(leave blank)</span></div>
+            <div class="statline"><span class="muted">Publish dir</span><span class="good">.</span></div>
+          </div>
+          <div class="card">
+            <h3>Service Worker</h3>
+            <p class="muted">If you use <span class="pill">service-worker.js</span>, keep it simple (cache core assets + PDFs if needed).</p>
+            <div class="statline"><span class="muted">Mode</span><span>Optional</span></div>
+          </div>
+          <div class="card">
+            <h3>Next Improvements</h3>
+            <p class="muted">Add real calculators, weekly logs, and a simple “journal” form that saves to localStorage.</p>
+            <div class="statline"><span class="muted">Priority</span><span class="warn">Track → Review → Improve</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span>© <span id="year"></span> Elite Manifest • Built as a static site on Netlify</span>
+    </div>
+  </div>
+
   <script>
+    // ---- Tab navigation ----
+    const tabButtons = Array.from(document.querySelectorAll('.tabbtn'));
+    const sections = {
+      dashboard: document.getElementById('panel-dashboard'),
+      trading: document.getElementById('panel-trading'),
+      btc: document.getElementById('panel-btc'),
+      trackers: document.getElementById('panel-trackers'),
+      pdfs: document.getElementById('panel-pdfs'),
+      about: document.getElementById('panel-about'),
+    };
+
+    function activateTab(key, pushHash=true){
+      tabButtons.forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === key)));
+      Object.entries(sections).forEach(([k, el]) => el.setAttribute('data-active', String(k === key)));
+
+      if (pushHash) location.hash = `#${key}`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+    });
+
+    // keyboard support
+    document.addEventListener('keydown', (e) => {
+      const activeIndex = tabButtons.findIndex(b => b.getAttribute('aria-selected') === 'true');
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+        e.preventDefault();
+        const delta = e.key === 'ArrowRight' ? 1 : -1;
+        const next = (activeIndex + delta + tabButtons.length) % tabButtons.length;
+        tabButtons[next].focus();
+        activateTab(tabButtons[next].dataset.tab);
+      }
+    });
+
+    // Hash routing
+    function syncFromHash(){
+      const key = (location.hash || '#dashboard').replace('#','');
+      if (sections[key]) activateTab(key, false);
+    }
+    window.addEventListener('hashchange', syncFromHash);
+    syncFromHash();
+
+    // Quick "goto" buttons
+    document.querySelectorAll('[data-goto]').forEach(el => {
+      el.addEventListener('click', () => activateTab(el.getAttribute('data-goto')));
+    });
+
+    // ---- Dashboard focus pill ----
+    const focuses = [
+      "Stack BTC + review plan",
+      "Journal trades + grade execution",
+      "Risk audit + cut distractions",
+      "One setup only + wait for A+",
+      "Build systems, not impulses"
+    ];
+    const todayPill = document.getElementById('todayPill');
+    function shuffleFocus(){
+      const pick = focuses[Math.floor(Math.random() * focuses.length)];
+      todayPill.textContent = pick;
+    }
+    document.getElementById('btnFocus')?.addEventListener('click', shuffleFocus);
+    shuffleFocus();
+
+    // ---- BTC Projection Calculator (simple model) ----
+    const weeklyAUD = document.getElementById('weeklyAUD');
+    const btcPriceAUD = document.getElementById('btcPriceAUD');
+    const years = document.getElementById('years');
+    const annualGrowth = document.getElementById('annualGrowth');
+    const btcSummary = document.getElementById('btcSummary');
+    const btcTableBody = document.querySelector('#btcTable tbody');
+
+    function fmt(n, digits=2){
+      return Number(n).toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits });
+    }
+
+    function recalc(){
+      const w = Math.max(0, Number(weeklyAUD.value || 0));
+      const p0 = Math.max(1, Number(btcPriceAUD.value || 1));
+      const y = Math.max(1, Math.min(30, Number(years.value || 5)));
+      const g = Number(annualGrowth.value || 0) / 100;
+
+      btcTableBody.innerHTML = '';
+
+      let btcTotal = 0;
+      let price = p0;
+
+      for (let i=1; i<=y; i++){
+        // simple yearly average price drift (compounded)
+        const avgPrice = price * (1 + g/2); // crude average within year
+        const contrib = w * 52;
+        const btcAdded = contrib / avgPrice;
+        btcTotal += btcAdded;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="padding:10px;border-bottom:1px solid rgba(27,42,59,.45);color:rgba(234,242,255,.92);">Year ${i}</td>
+          <td style="padding:10px;border-bottom:1px solid rgba(27,42,59,.45);text-align:right;color:rgba(234,242,255,.88);font-family:var(--mono);">${fmt(avgPrice,0)}</td>
+          <td style="padding:10px;border-bottom:1px solid rgba(27,42,59,.45);text-align:right;color:rgba(234,242,255,.88);font-family:var(--mono);">${fmt(contrib,0)}</td>
+          <td style="padding:10px;border-bottom:1px solid rgba(27,42,59,.45);text-align:right;color:rgba(45,212,191,.95);font-family:var(--mono);">${fmt(btcAdded, 6)}</td>
+          <td style="padding:10px;border-bottom:1px solid rgba(27,42,59,.45);text-align:right;color:rgba(234,242,255,.92);font-family:var(--mono);">${fmt(btcTotal, 6)}</td>
+        `;
+        btcTableBody.appendChild(tr);
+
+        // update end-of-year price for next year
+        price = price * (1 + g);
+      }
+
+      btcSummary.textContent = `Est. BTC after ${y}y: ${fmt(btcTotal, 6)} BTC (weekly ${fmt(w,0)} AUD)`;
+    }
+
+    document.getElementById('btnCalc')?.addEventListener('click', recalc);
+    document.getElementById('btnReset')?.addEventListener('click', () => {
+      weeklyAUD.value = 200;
+      btcPriceAUD.value = 100000;
+      years.value = 5;
+      annualGrowth.value = 0;
+      recalc();
+    });
+    recalc();
+
+    // ---- PDF Multi-tab viewer ----
+    const pdfItems = Array.from(document.querySelectorAll('.pdfItem'));
+    const pdfIframe = document.getElementById('pdfIframe');
+    const pdfTitle = document.getElementById('pdfTitle');
+    const pdfPath = document.getElementById('pdfPath');
+    const pdfOpenNew = document.getElementById('pdfOpenNew');
+
+    function selectPdf(btn){
+      pdfItems.forEach(b => b.setAttribute('aria-selected', String(b === btn)));
+      const src = btn.getAttribute('data-pdf-src');
+      const title = btn.getAttribute('data-pdf-title') || btn.textContent.trim();
+      pdfIframe.src = src;
+      pdfTitle.textContent = title;
+      pdfPath.textContent = src;
+      pdfOpenNew.href = src;
+    }
+    pdfItems.forEach(btn => btn.addEventListener('click', () => selectPdf(btn)));
+
+    // ---- Footer year ----
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Optional: register service worker if you have it (won't break if missing)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    }
   </script>
+
+  <!-- Your existing app.js can stay, but it's optional -->
+  <script src="app.js"></script>
 </body>
 </html>
